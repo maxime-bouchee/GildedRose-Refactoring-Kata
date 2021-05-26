@@ -2,57 +2,85 @@ package com.gildedrose
 
 class GildedRose(var items: Array<Item>) {
 
+    private val AGED_BRIE = "Aged Brie"
+    private val BACKSTAGE = "Backstage passes to a TAFKAL80ETC concert"
+    private val SULFURAS = "Sulfuras, Hand of Ragnaros"
+
     fun updateQuality() {
         for (i in items.indices) {
-            if (items[i].name != "Aged Brie" && items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
-                if (items[i].quality > 0) {
-                    if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-                        items[i].quality = items[i].quality - 1
-                    }
-                }
+            if (isNotAgedBrie(items[i].name) && isNotBackstage(items[i].name)) {
+                updateQualityWhenQualityGreaterThan0(items[i])
             } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1
+                updateQualityWhenQualityLessThan50(items[i])
+            }
 
-                    if (items[i].name == "Backstage passes to a TAFKAL80ETC concert") {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1
-                            }
-                        }
+            if (isNotSulfuras(items[i].name)) {
+                decreaseItemSellIn(items[i])
+            }
+            updateQualityWhenSellInLessThanZero(items[i])
+        }
+    }
 
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1
-                            }
-                        }
-                    }
+    private fun updateQualityWhenQualityGreaterThan0(item: Item) {
+        if (item.quality > 0) {
+            if (isNotSulfuras(item.name)) {
+                decreaseItemQuality(item)
+            }
+        }
+    }
+
+    private fun updateQualityWhenQualityLessThan50(item: Item) {
+        if (item.quality < 50) {
+            increaseItemQuality(item)
+
+            if (!isNotBackstage(item.name)) {
+                if (item.sellIn < 11) {
+                    increaseItemQuality(item)
                 }
-            }
 
-            if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-                items[i].sellIn = items[i].sellIn - 1
-            }
-
-            if (items[i].sellIn < 0) {
-                if (items[i].name != "Aged Brie") {
-                    if (items[i].name != "Backstage passes to a TAFKAL80ETC concert") {
-                        if (items[i].quality > 0) {
-                            if (items[i].name != "Sulfuras, Hand of Ragnaros") {
-                                items[i].quality = items[i].quality - 1
-                            }
-                        }
-                    } else {
-                        items[i].quality = items[i].quality - items[i].quality
-                    }
-                } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1
-                    }
+                if (item.sellIn < 6) {
+                    increaseItemQuality(item)
                 }
             }
         }
     }
 
+    private fun decreaseItemSellIn(item: Item) {
+        item.sellIn = item.sellIn - 1
+    }
+
+    private fun updateQualityWhenSellInLessThanZero(item: Item) {
+        if (item.sellIn < 0) {
+            if (isNotAgedBrie(item.name)) {
+                if (isNotBackstage(item.name)) {
+                    if (item.quality > 0) {
+                        if (isNotSulfuras(item.name)) {
+                            decreaseItemQuality(item)
+                        }
+                    }
+                } else {
+                    item.quality = item.quality - item.quality
+                }
+            } else {
+                if (item.quality < 50) {
+                    increaseItemQuality(item)
+                }
+            }
+        }
+    }
+
+    private fun isNotSulfuras(name: String): Boolean = name != SULFURAS
+
+    private fun isNotBackstage(name: String): Boolean = name != BACKSTAGE
+
+    private fun isNotAgedBrie(name: String): Boolean = name != AGED_BRIE
+
+    private fun decreaseItemQuality(item: Item) {
+        item.quality = item.quality - 1
+    }
+
+    private fun increaseItemQuality(item: Item) {
+        item.quality = item.quality + 1
+    }
 }
 
