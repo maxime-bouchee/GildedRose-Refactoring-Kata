@@ -31,6 +31,24 @@ internal class GildedRoseTest {
         assertEquals(11, app.items[0].quality)
 
     }
+
+    @Test
+    fun `check quality Backstage passes to a TAFKAL80ETC concert when quality is less than 50 and sellin less than 6`() {
+        val items = arrayOf<Item>(Item("Backstage passes to a TAFKAL80ETC concert", 5, 10))
+        val app = GildedRose(items)
+        app.updateQuality()
+        assertEquals(13, app.items[0].quality)
+
+    }
+
+    @Test
+    fun `check quality Sulfuras, Hand of Ragnaros when quality is less than 50 and sellin less than 0`() {
+        val items = arrayOf<Item>(Item("Sulfuras, Hand of Ragnaros", 5, 10))
+        val app = GildedRose(items)
+        app.updateQuality()
+        assertEquals(13, app.items[0].quality)
+
+    }
 }
 
 
