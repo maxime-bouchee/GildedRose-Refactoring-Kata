@@ -42,11 +42,11 @@ internal class GildedRoseTest {
     }
 
     @Test
-    fun `check quality Sulfuras, Hand of Ragnaros when quality is less than 50 and sellin less than 0`() {
-        val items = arrayOf<Item>(Item("Sulfuras, Hand of Ragnaros", 5, 10))
+    fun `check quality foo when quality is less than 50 and sellin less than 0`() {
+        val items = arrayOf<Item>(Item("foo", 0, 10))
         val app = GildedRose(items)
         app.updateQuality()
-        assertEquals(13, app.items[0].quality)
+        assertEquals(8, app.items[0].quality)
 
     }
 }
