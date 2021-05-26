@@ -11,7 +11,6 @@ internal class GildedRoseTest {
         val app = GildedRose(items)
         app.updateQuality()
         assertEquals("foo", app.items[0].name)
-
     }
 
     @Test
@@ -20,7 +19,6 @@ internal class GildedRoseTest {
         val app = GildedRose(items)
         app.updateQuality()
         assertEquals(9, app.items[0].quality)
-
     }
 
     @Test
@@ -47,7 +45,6 @@ internal class GildedRoseTest {
         val app = GildedRose(items)
         app.updateQuality()
         assertEquals(8, app.items[0].quality)
-
     }
 
     @Test
@@ -66,6 +63,22 @@ internal class GildedRoseTest {
         app.updateQuality()
         assertEquals(0, app.items[0].quality)
 
+    }
+
+    @Test
+    fun `check quality Conjured decreases by 2`() {
+        val items = arrayOf<Item>(Item("Conjured", 5, 10))
+        val app = GildedRose(items)
+        app.updateQuality()
+        assertEquals(8, app.items[0].quality)
+    }
+
+    @Test
+    fun `check quality Conjured when quality is less than 50 and sellin less than 0`() {
+        val items = arrayOf<Item>(Item("Conjured", 0, 10))
+        val app = GildedRose(items)
+        app.updateQuality()
+        assertEquals(6, app.items[0].quality)
     }
 }
 

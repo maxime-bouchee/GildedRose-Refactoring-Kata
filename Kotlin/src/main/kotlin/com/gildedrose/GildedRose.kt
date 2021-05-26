@@ -5,9 +5,16 @@ class GildedRose(var items: Array<Item>) {
     private val AGED_BRIE = "Aged Brie"
     private val BACKSTAGE = "Backstage passes to a TAFKAL80ETC concert"
     private val SULFURAS = "Sulfuras, Hand of Ragnaros"
+    private val CONJURED = "Conjured"
 
     fun updateQuality() {
         for (i in items.indices) {
+
+/*            when(items[i].name){
+                AGED_BRIE -> return
+                else -> updateQualityWhenQualityGreaterThan0(items[i])
+            }*/
+
             if (isNotAgedBrie(items[i].name) && isNotBackstage(items[i].name)) {
                 updateQualityWhenQualityGreaterThan0(items[i])
             } else {
@@ -45,10 +52,6 @@ class GildedRose(var items: Array<Item>) {
         }
     }
 
-    private fun decreaseItemSellIn(item: Item) {
-        item.sellIn = item.sellIn - 1
-    }
-
     private fun updateQualityWhenSellInLessThanZero(item: Item) {
         if (item.sellIn < 0) {
             if (isNotAgedBrie(item.name)) {
@@ -77,10 +80,17 @@ class GildedRose(var items: Array<Item>) {
 
     private fun decreaseItemQuality(item: Item) {
         item.quality = item.quality - 1
+        if(item.name == CONJURED){
+            item.quality = item.quality - 1
+        }
     }
 
     private fun increaseItemQuality(item: Item) {
         item.quality = item.quality + 1
+    }
+
+    private fun decreaseItemSellIn(item: Item) {
+        item.sellIn = item.sellIn - 1
     }
 }
 
